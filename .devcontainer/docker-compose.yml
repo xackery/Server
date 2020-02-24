@@ -1,0 +1,40 @@
+version: '3'
+services:
+  devcontainer:
+    # Uncomment the next line to use a non-root user for all processes. You can also
+    # simply use the "remoteUser" property in devcontainer.json if you just want
+    # VS Code and its sub-processes (terminals, tasks, debugging) to execute as the user
+    # On Linux, you may need to update the USER_UID and USER_GID in .devcontainer/Dockerfile 
+    # to match your user if not 1000. See https://aka.ms/vscode-remote/containers/non-root for details.
+    # user: vscode
+    image: eqemu/devcontainer
+    volumes: 
+      - ../:/workspace:cached
+    command: /bin/sh -c "while sleep 1000; do :; done"
+    links:
+      - mariadb
+    ports:
+      - "5998-5999:5998-5999/udp"
+      - "9000:9000/udp"
+      - "9001:9001"
+      - "9080:9080"
+      - "7000-7100:7000-7100/udp"
+    expose:
+      - "5998-5999/udp"
+      - "9000/udp"
+      - "9080/udp"
+      - "7000-7100/udp"
+  mariadb:
+    image: "bitnami/mariadb:latest"
+    #volumes:
+     # - ./build/db:/bitnami/mariadb:cached
+    environment:
+      MARIADB_DATABASE: peq
+      MARIADB_USER: eqemu
+      MARIADB_PASSWORD: eqemupass
+      ALLOW_EMPTY_PASSWORD: "yes"
+    ports:
+      - "3306:3306"
+    expose:
+      - "3306"
+  

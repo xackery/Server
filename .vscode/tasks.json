@@ -16,9 +16,21 @@
             ]
         },
         {
-            "label": "cmake",
+            "label": "make clean",
             "type": "shell",
-            "command": "mkdir -p build && cd build && cmake -DEQEMU_BUILD_LOGIN=ON -DEQEMU_BUILD_LUA=ON -G 'Unix Makefiles' ..",
+            "command": "cd build && make clean",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "problemMatcher": [
+                "$gcc"
+            ]
+        },
+        {
+            "label": "cmake and *.json regenerate",
+            "type": "shell",
+            "command": "mkdir -p build/bin/ && cp /init/eqemu_config.json build/bin/ && cp /init/eqemu_config.json build/bin/ && cd build && rm CMakeCache.txt || true && cmake -DEQEMU_BUILD_LOGIN=ON -DEQEMU_BUILD_LUA=ON -G 'Unix Makefiles' ..",
             "group": {
                 "kind": "build",
                 "isDefault": true
@@ -36,6 +48,38 @@
                     }
                 ]
             }
+        },
+        {
+            "label": "reset database to latest peq-beta",
+            "type": "shell",
+            "command": "cd /init/ && ./peq_beta.sh",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "problemMatcher": []
+        },
+        {
+            
+            "label": "eqemu_server assets",
+            "type": "shell",
+            "command": "cd /workspace/build/bin/ && chmod +x eqemu_server.pl && ./eqemu_server.pl assets",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "problemMatcher": []
+        },
+        {
+            
+            "label": "eqemu_server",
+            "type": "shell",
+            "command": "cd /workspace/build/bin/ && chmod +x eqemu_server.pl && ./eqemu_server.pl",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "problemMatcher": []
         },
         {
             "label": "zone",
@@ -58,7 +102,7 @@
         {
             "label": "world",
             "type": "shell",
-            "command": "cd build/bin && ./world",
+            "command": "cd build/bin && ./shared_memory && ./world",
             "group": {
                 "kind": "test",
                 "isDefault": true

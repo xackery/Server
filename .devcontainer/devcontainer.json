@@ -2,20 +2,26 @@
 // https://github.com/microsoft/vscode-dev-containers/tree/v0.101.1/containers/ubuntu-18.04-git
 {	
 	"name": "Ubuntu 18.04 EQEMU",	
-	"dockerFile": "Dockerfile",
+	"dockerComposeFile": ["./docker-compose.yml"],
+	"service": "devcontainer",
 
 	// Set *default* container specific settings.json values on container create.
 	"settings": { 
 		"terminal.integrated.shell.linux": "/bin/bash"
 	},
+	"workspaceFolder": "/workspace",
 
 	// Add the IDs of extensions you want installed when the container is created.
-	"extensions": [],
-	"appPort": [3306, 5558, 5559, 7000, 7001, 7002, 7003, 7004, 7005, 7778, 9000, 9001, 9080, 9081],
+	"extensions": ["ms-vscode.cpptools"],
+	// "appPort": [3306, 5558, 5559, 7000, 7001, 7002, 7003, 7004, 7005, 7778, 9000, 9001, 9080, 9081],
 	// "forwardPorts": [3306, 5558, 5559, 7000, 7001, 7002, 7003, 7004, 7005, 7778, 9000, 9001, 9080, 9081],
 
 	// Use 'postCreateCommand' to run commands after the container is created.
-	// "postCreateCommand": "uname -a",
+	"postCreateCommand": [
+		//"sed -i 's/\"shortname\": \"Akkas PEQ Installer\",/\"shortname\": \"dev\",/g' /config/eqemu_config.json",
+		//"sed -i 's/\"longname\": \"Akkas PEQ Installer\"/\"longname\": \"VSCode DevContainer\"/g' /config/eqemu_config.json",
+		//"cp /config/eqemu_config.json /workspace/build/bin/eqemu_config.json"
+	],
 
 	// Uncomment to use the Docker CLI from inside the container. See https://aka.ms/vscode-remote/samples/docker-in-docker.
 	// "mounts": [ "source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind" ],
@@ -24,5 +30,5 @@
 	// "runArgs": [ "--cap-add=SYS_PTRACE", "--security-opt", "seccomp=unconfined" ],
 
 	// Uncomment to connect as a non-root user. See https://aka.ms/vscode-remote/containers/non-root.
-	// "remoteUser": "eqemu"
+	// "remoteUser": "vscode"
 }
